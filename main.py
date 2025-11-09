@@ -1,50 +1,26 @@
-import datetime
+#!/usr/bin/env python
+
+import asyncio
+
 from blockchain import Blockchain
 from classes import Block, Transaction
+from websockets.asyncio.server import serve
 
 blockchain = Blockchain()
 blockchain.initialize_blockchain(200)
 
-second_transaction = Transaction(
-    50,
-    "Daniel",
-    "MiniCoins"
-)
+async def hello(websocket):
+    name = await websocket.recv()
+    print(f"<<< {name}")
 
-second_block = Block(
-    second_transaction,
-    datetime.datetime.now(),
-    blockchain.get_last_block_hash()
-)
+    greeting = f"Hello {name}!"
 
-blockchain.add_block(second_block)
+    await websocket.send(greeting)
+    print(f">>> {greeting}")
 
-third_transaction = Transaction(
-    75,
-    "MiniCoins",
-    "Breno"
-)
+async def main():
+    async with serve(hello, "localhost", 8765) as server:
+        await server.serve_forever()
 
-third_block = Block(
-    third_transaction,
-    datetime.datetime.now(),
-    blockchain.get_last_block_hash()
-)
-
-blockchain.add_block(third_block)
-
-transaction = Transaction(
-    25,
-    "MiniCoins",
-    "Daniel"
-)
-
-block = Block(
-    transaction,
-    datetime.datetime.now(),
-    blockchain.get_last_block_hash()
-)
-
-blockchain.add_block(block)
-
-blockchain.print_blockchain_log()
+if __name__ == "__main__":
+    asyncio.run(main())
