@@ -79,17 +79,18 @@ class Blockchain(object):
     def add_block(self, block: Block):
         current_block = self.first_block
         if current_block is None:
-            return "Blockchain not initialized"
+            return -1
         validate = self.validate_transaction(block.transaction)
         if validate["error"] == 1:
             print(validate["message"])
-            return 
+            return -1
 
         while current_block.next_block != None:
             current_block = current_block.next_block
 
         if not validate_block(block, current_block):
             print("Invalid block hash")
-            return
+            return -1
         
         current_block.next_block = block
+        return 0
