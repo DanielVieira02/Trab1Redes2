@@ -78,23 +78,50 @@ class Blockchain(object):
     
     def validate_blockchain(self):
         current_block = self.first_block
-        validate_block(current_block, current_block.previous_hash)
+        current_block_index = 0
+        while current_block != None:
+            print("Verifying legitimity of block " + str(current_block_index) + ": ")
+            print(" - Current Hash " + current_block.hash)
+            print(" - Prvious Hash " + current_block.previous_hash)
+            if validate_block(current_block, current_block.previous_hash):
+                print(" - Block is valid!")
+                current_block = current_block.next_block
+                current_block_index = current_block_index + 1
+            else:
+                print(" - Block is invalid! The Blockchain is incorrect!")
+                return {
+                    "status": "error",
+                    "message": "Block " + str(current_block_index) + " is invalid"
+                }
+        
+        return {
+            "status": "success"
+        }
     
     def add_block(self, block: Block):
         current_block = self.first_block
         if current_block is None:
-            return -1
+            return {
+                "status": "error",
+                "message": "Blockchain not initialized"
+            }
         validate = self.validate_transaction(block.transaction)
         if validate["error"] == 1:
-            print(validate["message"])
-            return -1
+            return {
+                "status": "error",
+                "message": validate["message"]
+            }
 
         while current_block.next_block != None:
             current_block = current_block.next_block
 
         if not validate_block(block, current_block.hash):
-            print("Invalid block hash")
-            return -1
+            return {
+                "status": "error",
+                "message": "Invalid Hash"
+            }
         
         current_block.next_block = block
-        return 0
+        return {
+            "status": "success"
+        }
