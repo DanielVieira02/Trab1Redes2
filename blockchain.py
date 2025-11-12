@@ -76,6 +76,10 @@ class Blockchain(object):
             "error": 0
         }
     
+    def validate_blockchain(self):
+        current_block = self.first_block
+        validate_block(current_block, current_block.previous_hash)
+    
     def add_block(self, block: Block):
         current_block = self.first_block
         if current_block is None:
@@ -88,7 +92,7 @@ class Blockchain(object):
         while current_block.next_block != None:
             current_block = current_block.next_block
 
-        if not validate_block(block, current_block):
+        if not validate_block(block, current_block.hash):
             print("Invalid block hash")
             return -1
         

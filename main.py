@@ -13,7 +13,6 @@ blockchain = Blockchain()
 blockchain.initialize_blockchain(200)
 
 async def server_routine(websocket):
-    blockchain.print_blockchain_log()
     async for message in websocket:
         event = json.loads(message)
         request_type = event["type"]
@@ -47,6 +46,7 @@ async def server_routine(websocket):
             await websocket.send(json.dumps(response))
             continue
 
+        blockchain.print_blockchain_log()
         await websocket.send(json.dumps(response))
 
 

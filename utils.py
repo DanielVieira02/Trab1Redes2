@@ -1,7 +1,7 @@
 from hashlib import sha256
 
-def validate_block(block, previous_block):
-    return (block.previous_hash == previous_block.hash
+def validate_block(block, previous_hash):
+    return (block.previous_hash == previous_hash
             and block.hash == calculate_block_hash(block, block.transaction)
             and block.hash[:3] == "038")
 
