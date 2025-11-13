@@ -5,6 +5,8 @@ import json
 import logging
 import classes
 import settings
+import os
+import sys
 
 from blockchain import Blockchain
 from classes import Block, Transaction
@@ -49,7 +51,11 @@ async def server_routine(websocket):
 
 
 async def main():
-    async with serve(server_routine, "localhost", 8038, ping_interval=None) as server:
+    address = "localhost"
+    if len(sys.argv) > 1:
+        address = sys.argv[1]
+
+    async with serve(server_routine, address, 8038, ping_interval=None) as server:
         blockchain.print_blockchain_log()
         await server.serve_forever()
 

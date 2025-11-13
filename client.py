@@ -7,6 +7,7 @@ import logging
 import os
 import time
 import settings
+import sys
 
 from websockets.asyncio.client import connect
 from classes import Block, Transaction
@@ -81,7 +82,11 @@ async def verify_blockchain(websocket):
 
 
 async def client_routine():
-    uri = "ws://localhost:8038"
+    uri = "ws://127.0.0.1:8038"
+    
+    if len(sys.argv) > 1:
+        uri = "ws://" + sys.argv[1] + ":8038"
+
     user_input = 1
     async with connect(uri) as websocket:
         while user_input != "0":
