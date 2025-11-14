@@ -35,7 +35,7 @@ Este arquivo possui a definição das classes utilizadas pela Blockchain. Ao tod
 #### *Transaction*
 Classe utilizada para representar uma transação em nossa blockchain. 
 
- |  Atributo  |  Tipo  |  Função  | 
+ |  Atributo  |  Tipo  |  Função  |
  |  --  |  --  |  --  | 
  |  *amount*  |  int  |  Define a quantia de valor transferido na transação | 
  |  *destiny*  |  string  |  Define o usuário que irá receber o valor da transferência  | 
@@ -78,7 +78,7 @@ A responsabilidade do gerenciamento da Blockchain reside completamente no servid
 O tipo de requisição é definido pelo campo inteiro *"type"* da mensagem. O servidor aceita os seguintes tipos definido pelo arquivo [*settings.py*](codigo_txt/settings.py.txt): 
 
  |  Configuração  |  Valor  | 
- |   -   |   -   | 
+ |   --   |   --   | 
  |  REQUEST_BLOCKCHAIN_HASH  |   1   | 
  |  REQUEST_ADD_BLOCK  |   2   | 
  |  REQUEST_VERIFY_BLOCKCHAIN  |   3   | 
@@ -90,7 +90,7 @@ Para que o cliente possa gerar uma *hash* válida, é necessário utilizar a *ha
 Ao receber uma requisição deste tipo, o servidor acessa todos os blocos da Blockchain até chegar ao último bloco, e retorna sua *hash*. A resposta desse tipo de requisição consiste em:
 
  |  Nome |  Tipo  |  Descrição  | 
- |  -  |  -  |  -  | 
+ |  --  |  --  |  --  | 
  |  status  |  string  |  Indica o resultado da requisição (sempre "success", a não ser que haja uma exceção no código) | 
  |  hash  |  string  |  Hash do bloco mais recente da Blockchain | 
 
@@ -99,7 +99,7 @@ Ao receber uma requisição deste tipo, o servidor acessa todos os blocos da Blo
 Esse tipo de requisição indica que o cliente deseja adicionar um novo bloco com transação na Blockchain (ver seção Adicionando blocos). A resposta desse tipo de requisição consiste em:
 
  |  Nome  |  Tipo  |  Descrição  | 
- |  -  |  -  |  -  | 
+ |  --  |  --  |  --  | 
  |  status  |  string  |  Indica o resultado da requisição ("success" em caso de sucesso, "error" caso o bloco não seja válido)  | 
  |  message  |  string  |  Contém detalhes do resultado da requisição, como motivo do bloco ter sido rejeitado  | 
 
@@ -109,7 +109,7 @@ Note que a hash do bloco a ser adicionado **não é gerada pelo servidor.** A re
 Esse tipo de requisição indica que o cliente deseja verificar se a Blockchain ainda é válida e não há nenhuma inconsistência nos blocos. Essa verificação é feita com o servidor passando entre cada bloco e comparando suas hashes. A resposta desse tipo de requisição consiste em:
 
  |  Nome |  Tipo |  Descrição  | 
- |  -  |  -  |  -  | 
+ |  --  |  --  |  --  | 
  |  status  |  string  |  Indica o resultado da requisição ("success" em caso de sucesso, "error" caso o bloco não seja válido)  | 
  |  message  |  string  |  Contém detalhes do resultado da requisição, e em caso de erro, indica o bloco que está comprometido  | 
 
@@ -124,14 +124,14 @@ Ao inicializar o cliente, o usuário deve definir seu nome de usuário, que tamb
 Para efetuar um saque, o cliente deve informar a quantidade que deseja sacar. Então, o cliente solicita a hash do bloco mais recente para que ele possa gerar o bloco para adicionar na Blockchain.
 ##### Corpo da requisição
  | Campo | Valor | Descrição | 
- | - | - | - | 
+ | -- | -- | -- | 
  | type |  REQUEST_BLOCKCHAIN_HASH  |  Indica o tipo de requisição feita para o servidor | 
  | message | string | Contém detalhes do resultado da requisição, e em caso de erro, indica o bloco que está comprometido | 
 
 Feito isso, o cliente envia uma requisição contendo um bloco de transação com o valor desejado, sua própria conta como conta destino e a conta "MiniCoins" como conta de origem.
 ##### Corpo da requisição
  |  Campo | Valor | Descrição | 
- | - | - | - | 
+ | -- | -- | -- | 
  | type |  REQUEST_ADD_BLOCK  | Indica o tipo de requisição feita para o servidor | 
  | block |  string contendo o bloco em formato JSON  | O bloco a ser adicionado na Blockchain | 
 
@@ -139,14 +139,14 @@ Feito isso, o cliente envia uma requisição contendo um bloco de transação co
 Para efetuar um depósito, o cliente deve informar a quantidade que deseja depositar. Então, o cliente solicita a hash do bloco mais recente para que ele possa gerar o bloco para adicionar na Blockchain.
 ##### Corpo da requisição
  | Campo | Valor | Descrição | 
- | - | - | - | 
+ | -- | -- | -- | 
  | type |  REQUEST_BLOCKCHAIN_HASH  |  Indica o tipo de requisição feita para o servidor | 
  | message | string | Contém detalhes do resultado da requisição, e em caso de erro, indica o bloco que está comprometido | 
 
 Feito isso, o cliente envia uma requisição contendo um bloco de transação com o valor desejado, a conta "MiniCoins" como conta destino e sua própria conta como conta de origem.
 ##### Corpo da requisição
  |  Campo | Valor | Descrição | 
- | - | - | - | 
+ | -- | -- | -- | 
  | type |  REQUEST_ADD_BLOCK  | Indica o tipo de requisição feita para o servidor | 
  | block |  string contendo o bloco em formato JSON  | O bloco a ser adicionado na Blockchain | 
 
@@ -154,13 +154,13 @@ Feito isso, o cliente envia uma requisição contendo um bloco de transação co
 Para efetuar um saque, o cliente deve informar a quantidade que deseja transferir e a conta de destino. Então, o cliente solicita a hash do bloco mais recente para que ele possa gerar o bloco para adicionar na Blockchain.
 ##### Corpo da requisição
  | Campo | Valor | Descrição | 
- | - | - | - | 
+ | -- | -- | -- | 
  | type |  REQUEST_BLOCKCHAIN_HASH  |  Indica o tipo de requisição feita para o servidor | 
  | message | string | Contém detalhes do resultado da requisição, e em caso de erro, indica o bloco que está comprometido | 
 
 Feito isso, o cliente envia uma requisição contendo um bloco de transação com o valor desejado, a conta definida como destino e sua própria conta como conta de origem. Note que não é possível realizar uma transferência de outra conta para a conta do próprio cliente (isso seria uma falha de segurança gravíssima).
 ##### Corpo da requisição
  |  Campo | Valor | Descrição | 
- | - | - | - | 
+ | -- | -- | -- | 
  | type |  REQUEST_ADD_BLOCK  | Indica o tipo de requisição feita para o servidor | 
  | block |  string contendo o bloco em formato JSON  | O bloco a ser adicionado na Blockchain | 
