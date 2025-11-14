@@ -77,11 +77,12 @@ Para adicionar um bloco na Blockchain, a Blockchain primeiro faz duas validaçõ
 A responsabilidade do gerenciamento da Blockchain reside completamente no servidor. Ao inicializar, o servidor cria a Blockchain com um bloco único e *previous_hash* vazio, contendo o valor inicial que transitará pela rede. Após isso, o *websocket* é aberto e fica disponível para o recebimento de requisições por parte dos clientes.
 O tipo de requisição é definido pelo campo inteiro *"type"* da mensagem. O servidor aceita os seguintes tipos definido pelo arquivo [*settings.py*](codigo_txt/settings.py.txt): 
 
-| Configuração | Valor|
+| Configuração | Valor |
 |  -  |  -  |
 | REQUEST_BLOCKCHAIN_HASH |  1  |
 | REQUEST_ADD_BLOCK |  2  |
 | REQUEST_VERIFY_BLOCKCHAIN |  3  |
+
 Quaisquer outros valores são recusados, resultando no servidor enviando uma mensagem de erro ao cliente que requisitou.
 
 #### REQUEST_BLOCKCHAIN_HASH
